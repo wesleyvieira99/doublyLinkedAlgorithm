@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aprenda doubly linked lists em Java com um laboratório visual, operações passo a passo e uma implementação completa comentada.">
+<title>Duas direções. Uma lógica. | Doubly Linked List em Java</title>
+<style>
+:root{--ink:#17322d;--muted:#65746b;--paper:#f7f7ef;--card:#fffef8;--line:#dce2d5;--green:#306844;--lime:#c8ef89;--pink:#e5b4c0;--mono:'SFMono-Regular',Consolas,'Liberation Mono',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65}button,input,select{font:inherit}a{color:inherit;text-decoration:none}button,a,input,select,summary{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #729a28;outline-offset:4px}::selection{background:var(--lime);color:var(--ink)}.wrap{max-width:1200px;margin:auto;padding:0 40px}.skip{position:absolute;left:20px;top:-90px;background:var(--lime);padding:12px;z-index:100}.skip:focus{top:12px}
+nav{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(247,247,239,.96);backdrop-filter:blur(14px)}.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;letter-spacing:-.8px;white-space:nowrap}.brand-mark{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;background:var(--ink);color:var(--lime);width:32px;height:32px;border-radius:9px;margin-right:9px;font-size:19px}.brand span:last-child{font-weight:400;color:var(--muted);margin-left:5px}.nav-links{display:flex;gap:25px;font-size:13px;font-weight:650}.nav-links a:hover{color:var(--green)}.nav-code{border:1px solid var(--ink);padding:7px 15px;border-radius:30px}.hero{overflow:hidden;padding:75px 0 64px}.eyebrow{font:600 11px/1.4 var(--mono);letter-spacing:1.8px;text-transform:uppercase;display:flex;align-items:center;gap:10px}.dot{width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block}.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:45px;align-items:center}.hero h1{font-size:clamp(44px,5.4vw,72px);font-weight:750;letter-spacing:-4px;line-height:1.08;margin:24px 0}.hero h1 em{font-family:Georgia,serif;font-weight:400;color:var(--green)}.hero-description{max-width:440px;color:var(--muted);font-size:17px;line-height:1.8}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:27px 0}.button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:7px;padding:11px 17px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:13px;font-weight:650;min-height:44px}.button:hover{background:#edf0e4}.button.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}.button.primary:hover{background:#29493d}.button.lime{background:var(--lime);border-color:var(--lime);color:var(--ink)}.small-note{color:var(--muted);font:11px/1.6 var(--mono)}
+.hero-art{background:var(--ink);border-radius:18px;min-height:340px;padding:25px;color:var(--paper);position:relative;box-shadow:0 20px 45px #17322d0c}.art-top{display:flex;justify-content:space-between;align-items:center;font:11px var(--mono);color:#b6c6ba}.window-dots{display:flex;gap:5px}.window-dots i{width:6px;height:6px;background:#789286;border-radius:50%}.hero-art svg{width:100%;height:auto;margin:28px 0 8px;overflow:visible}.art-bottom{display:flex;justify-content:space-between;border-top:1px solid #ffffff22;padding-top:17px;color:#c7d6ca;font:11px/1.6 var(--mono)}.art-bottom b{color:var(--lime);font-weight:500}.chapter-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:19px 0;margin-top:42px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.chapter-strip a{font-size:12px;display:flex;gap:12px;align-items:center}.chapter-strip span{font-family:var(--mono);color:var(--muted)}.chapter-strip strong{font-weight:550}
+section{padding:64px 0}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:30px}.section-head h2{font-size:clamp(29px,3vw,42px);letter-spacing:-1.6px;line-height:1.15;font-weight:650;margin:14px 0 0}.section-head p{max-width:390px;color:var(--muted);font-size:14px;margin:0}.section-number{font:11px var(--mono);letter-spacing:1px;color:var(--green)}.text-link{font:12px var(--mono);border-bottom:1px solid var(--ink);padding-bottom:4px}.intro-layout{display:grid;grid-template-columns:1fr 1fr;gap:65px}.intro-copy p{margin:0 0 18px;color:var(--muted);font-size:15px}.intro-copy strong{color:var(--ink)}.anatomy{border:1px solid var(--line);border-radius:12px;padding:26px;background:var(--card)}.anatomy-label{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--muted)}.anatomy-cell{display:grid;grid-template-columns:1fr 1.35fr 1fr;text-align:center;border:1px solid var(--ink);border-radius:8px;overflow:hidden;margin:20px 0}.anatomy-cell div{padding:15px 4px;border-right:1px solid var(--ink);font:12px var(--mono)}.anatomy-cell div:last-child{border-right:none}.anatomy-cell .data{background:var(--lime);font-size:24px;font-weight:600}.anatomy-cell small{display:block;color:var(--muted);font:10px var(--mono);margin-bottom:9px}.anatomy-caption{font-size:12px;color:var(--muted)}.inline-code,code{font-family:var(--mono);font-size:.88em}.inline-code{background:#e9eedf;padding:2px 5px;border-radius:3px;color:var(--green)}
+.lab-section{background:#eef2e7;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.lab-shell{background:var(--card);border:1px solid #d4ddce;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px #17322d05}.lab-bar{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 22px;border-bottom:1px solid var(--line)}.lab-bar-title{display:flex;gap:9px;align-items:center;font:12px var(--mono)}.tag{font:10px var(--mono);padding:4px 7px;border:1px solid var(--line);border-radius:4px;color:var(--muted)}.lab-bar .button{padding:5px 11px;min-height:34px;font-size:11px}.lab-controls{padding:20px 22px;display:flex;align-items:end;gap:12px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px}.field label{font:11px var(--mono);color:var(--muted)}.field select,.field input{height:43px;border:1px solid #c9d3c3;border-radius:6px;padding:0 12px;color:var(--ink);background:white;font-size:13px}.field select{width:215px}.field input{width:110px}.field input:disabled{background:var(--paper)}.error{margin:0 22px;color:#a33a32;font-size:13px;min-height:0}.error:not(:empty){padding:10px 0}.lab-legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:10px 22px 0;font:11px var(--mono);color:var(--muted)}.legend-items{display:flex;gap:20px}.legend-next{color:var(--green)}.legend-prev{color:#946a81}.lab-stats{display:flex;gap:18px}.lab-stats b{color:var(--ink)}.diagram-scroll{overflow-x:auto;overflow-y:hidden;padding:0 20px;background-image:radial-gradient(#dbe3d3 .8px,transparent .8px);background-size:15px 15px}.diagram{position:relative;min-height:275px;display:flex;align-items:center;justify-content:center;gap:49px;padding:66px 36px 65px;width:max-content;min-width:100%;isolation:isolate}.diagram svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible;pointer-events:none}.node{position:relative;width:120px;flex:none;background:var(--card);border:1.5px solid #97af95;border-radius:8px;transition:background .2s,border-color .2s;box-shadow:0 4px 0 #dfe6d8}.node.is-focus{border-color:var(--green);background:#eff9de;box-shadow:0 4px 0 #bed58d}.node.removed{opacity:.45;border-style:dashed;box-shadow:none}.node-top{padding:7px 10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #d5dfca;font:9px var(--mono);color:var(--muted)}.node-value{display:block;font:600 27px/1.2 var(--mono);padding:13px 5px 11px;text-align:center;color:var(--ink)}.node-value.long{font-size:20px;line-height:1.62}.node-refs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #d5dfca;font:9px/1.5 var(--mono);text-align:center}.node-refs span{padding:5px 1px}.node-refs span:first-child{border-right:1px solid #d5dfca}.node-refs b{display:block;font-weight:500}.node-badges{position:absolute;top:-27px;left:0;display:flex;gap:5px;white-space:nowrap}.node-badges span{font:9px var(--mono);background:var(--ink);color:var(--lime);padding:3px 6px;border-radius:3px}.node-new{position:absolute;bottom:-27px;left:0;font:10px var(--mono);color:var(--green);white-space:nowrap}.empty{text-align:center;max-width:340px;padding:24px;font-size:14px;color:var(--muted)}.empty b{font:22px var(--mono);display:block;color:var(--ink);margin-bottom:12px}.trace{padding:10px 22px 17px;display:flex;gap:10px;flex-wrap:wrap;font:11px/1.6 var(--mono);color:var(--muted);border-bottom:1px solid var(--line)}.trace code{color:var(--ink)}.lab-bottom{display:grid;grid-template-columns:1fr 1fr;min-height:240px}.step-explanation{padding:25px 26px;border-right:1px solid var(--line)}.step-count{font:10px var(--mono);color:var(--green);letter-spacing:1px;text-transform:uppercase}.step-explanation h3{font-size:20px;letter-spacing:-.4px;margin:10px 0}.step-explanation p{font-size:13px;color:var(--muted);margin:0 0 17px;min-height:42px}.step-actions{display:flex;gap:8px;flex-wrap:wrap}.step-actions .button{padding:7px 11px;font-size:11px;min-height:37px}.step-code{padding:23px 24px;background:#f4f6ed;overflow-x:auto}.code-label{font:10px var(--mono);color:var(--muted);margin-bottom:14px}.step-code pre{font:11px/1.95 var(--mono);margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.code-line{display:block;padding:1px 9px;border-left:2px solid transparent;color:#6a7b70}.code-line.active{background:#e0edc7;border-left-color:var(--green);color:var(--ink)}.code-line i{font-style:normal;display:inline-block;min-width:24px;color:#889880;user-select:none}.lab-help{margin:14px 0 0;font-size:12px;color:var(--muted)}
+.learning-grid{display:grid;grid-template-columns:230px 1fr;gap:60px}.toc{align-self:start;position:sticky;top:110px;border-top:1px solid var(--line);padding-top:20px}.toc h3{font:10px var(--mono);letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin:0 0 17px}.toc a{display:block;padding:8px 0;font-size:13px;color:var(--muted)}.toc a:hover{color:var(--green)}.toc a span{display:inline-block;width:26px;font:10px var(--mono)}.lesson{padding:0 0 35px;margin-bottom:35px;border-bottom:1px solid var(--line);scroll-margin-top:105px}.lesson:last-child{margin-bottom:0}.lesson h3{font-size:25px;line-height:1.3;letter-spacing:-.8px;margin:8px 0 16px}.lesson p{font-size:15px;color:var(--muted)}.lesson strong{color:var(--ink)}.mini-code{background:var(--ink);color:#d5e7d5;border-radius:9px;padding:22px 24px;font:12px/1.9 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}.mini-code .comment{color:#90ab9c}.mini-code .bright{color:var(--lime)}.lesson-note{border-left:3px solid #a4c675;padding:4px 0 4px 18px;margin:23px 0;font-size:13px;color:var(--muted)}.logic-steps{margin:20px 0;padding:0;list-style:none;counter-reset:logic}.logic-steps li{counter-increment:logic;position:relative;padding:0 0 16px 36px;font-size:14px;color:var(--muted)}.logic-steps li:before{content:counter(logic,decimal-leading-zero);position:absolute;left:0;color:var(--green);font:11px var(--mono);top:3px}.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.scenario{border:1px solid var(--line);padding:16px;border-radius:7px}.scenario b{font-size:13px}.scenario p{font-size:12px;margin:8px 0 0}.complexity-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;min-width:510px;font-size:13px}th{text-align:left;background:#e8eddf;font-weight:650;padding:15px}td{padding:14px 15px;border-top:1px solid var(--line)}td:first-child{font-family:var(--mono);font-size:11px}.cost{font-family:var(--mono);font-weight:600;color:var(--green)}.table-note{font-size:12px;color:var(--muted);margin:14px 0}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}.comparison h3{font-size:17px;margin:0 0 8px}.comparison p{font-size:13px;color:var(--muted);margin:0}
+.source-section{background:var(--ink);color:var(--paper);padding-bottom:70px}.source-section .section-number{color:var(--lime)}.source-section .section-head p{color:#b6c6ba}.source-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.source-tools .button{border-color:#ffffff33;color:var(--paper)}.source-tools .button:hover{background:#ffffff15}.source-tools .button.lime{color:var(--ink);border-color:var(--lime)}.source-window{border:1px solid #476257;border-radius:10px;overflow:hidden;background:#112a24}.source-bar{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid #355045;font:11px var(--mono);color:#b8cabd}.source-bar .file-dot{width:8px;height:8px;background:var(--lime);border-radius:50%}.source-code{margin:0;padding:21px 0;overflow:auto;max-height:650px;font:12px/1.85 var(--mono);tab-size:4;counter-reset:source-line}.source-code.expanded{max-height:none}.source-code>span{display:block;min-height:22px;padding:0 24px 0 66px;position:relative;white-space:pre}.source-code>span:before{counter-increment:source-line;content:counter(source-line);position:absolute;left:16px;width:28px;text-align:right;color:#648475;user-select:none}.tok-comment{color:#8aaa98}.tok-string{color:#d8e49a}.tok-keyword{color:#d5b2cb}.tok-number{color:#b4d6d8}.source-section .small-note{color:#a8c2af}.run-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:25px}.run-grid>div{min-width:0}.run-grid h3{font:11px var(--mono);color:#c6d7ca;font-weight:400}.run-grid pre{border:1px solid #476257;background:#112a24;padding:18px 20px;font:12px/1.8 var(--mono);border-radius:8px;overflow:auto;margin:10px 0}.source-status{min-height:22px;font-size:12px;color:var(--lime);margin-top:10px}
+.quiz-section{padding-bottom:70px}.quiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.quiz-card{border:1px solid var(--line);border-radius:10px;padding:24px;background:var(--card)}.quiz-card h3{font-size:17px;line-height:1.5;letter-spacing:-.3px;margin:10px 0 20px}.quiz-answers{display:flex;gap:8px;flex-wrap:wrap}.quiz-answers button{border:1px solid #c8d4bc;background:transparent;padding:8px 12px;border-radius:5px;font:12px var(--mono);min-height:40px}.quiz-answers button[aria-pressed=true]{background:var(--ink);color:var(--lime);border-color:var(--ink)}.feedback{font-size:13px;color:var(--muted);margin-top:15px;min-height:65px}.feedback.correct{color:var(--green)}.faq{margin-top:30px;border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600;font-size:15px}details p{font-size:14px;color:var(--muted);max-width:800px}.end-banner{background:#e7efdb;border-radius:12px;padding:28px 32px;margin:35px 0 0;display:flex;align-items:center;justify-content:space-between;gap:25px}.end-banner p{font-size:16px;max-width:610px;margin:0}.end-banner strong{font-weight:650}footer{border-top:1px solid var(--line);padding:25px 0 35px}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:11px/1.8 var(--mono);color:var(--muted)}
+@media(max-width:1000px){.wrap{padding:0 28px}.hero-grid{gap:25px}.hero h1{letter-spacing:-2.5px}.learning-grid{grid-template-columns:175px 1fr;gap:35px}.lab-bottom{grid-template-columns:1fr 1fr}.nav-links{gap:17px}}
+@media(max-width:760px){html{scroll-padding-top:78px}.wrap{padding:0 20px}.nav-inner{height:65px;gap:12px}.brand{font-size:14px}.brand span:last-child{display:none}.nav-links{gap:13px;font-size:11px}.nav-links a.nav-extra{display:none}.nav-code{padding:6px 10px}.hero{padding:45px 0 30px}.hero-grid{grid-template-columns:1fr;gap:25px}.hero h1{font-size:55px;letter-spacing:-2.6px}.hero-description{font-size:16px;max-width:550px}.hero-art{min-height:0;padding:23px;max-width:520px;width:100%}.hero-art svg{margin:18px 0 6px}.chapter-strip{grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}section{padding:45px 0}.section-head{flex-direction:column;align-items:start;gap:18px}.section-head h2{font-size:33px}.section-head p{max-width:550px}.intro-layout{grid-template-columns:1fr;gap:22px}.anatomy{padding:22px}.lab-controls{padding:17px;gap:10px}.field select{width:190px}.field input{width:90px}.lab-controls .button{flex:1;min-width:150px}.lab-bar{padding:14px 17px}.lab-bar-title .tag{display:none}.lab-legend{padding:9px 17px 0;gap:10px}.lab-bottom{grid-template-columns:1fr}.step-explanation{border-right:0;border-bottom:1px solid var(--line);padding:22px}.step-code{padding:22px}.learning-grid{display:block}.toc{display:none}.lesson h3{font-size:24px}.scenario-grid{grid-template-columns:1fr 1fr}.comparison{gap:20px}.run-grid,.quiz-grid{grid-template-columns:1fr}.source-code{font-size:11px}.source-code>span{padding-right:20px;padding-left:53px}.end-banner{flex-direction:column;align-items:start;padding:24px}.quiz-card{padding:22px}.diagram{justify-content:flex-start}.diagram-scroll{padding:0}.source-section .section-head p{font-size:13px}.source-tools .button{font-size:12px}}
+@media(max-width:390px){.wrap{padding:0 15px}.hero h1{font-size:47px}.nav-links{gap:10px}.nav-links a.nav-theory{display:none}.hero-art{padding:17px}.field select{width:175px}.lab-controls{padding:14px;gap:8px}.scenario-grid{grid-template-columns:1fr}.comparison{grid-template-columns:1fr}.lab-stats{gap:12px}.chapter-strip a{font-size:11px;gap:8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media(pointer:coarse){.button,.quiz-answers button{min-height:44px}}
+@media print{nav,.actions,.source-tools,.lab-controls,.step-actions,.quiz-answers,.toc,.skip{display:none!important}.wrap{max-width:none;padding:0}.hero{padding-top:0}.hero-grid{grid-template-columns:1fr 1fr}.source-code{max-height:none!important;overflow:visible;font-size:9px}.source-code>span{white-space:pre-wrap}.source-section{background:white;color:var(--ink)}.source-window,.source-bar,.run-grid pre{background:white;color:var(--ink)}.tok-comment{color:#536b5f}.tok-string{color:#526123}.tok-keyword{color:#61445c}.learning-grid{display:block}section{break-inside:auto}.lesson,.quiz-card{break-inside:avoid}.lab-section{background:white}.hero h1{font-size:42px}.source-section .section-head p{color:var(--muted)}}
+</style>
+</head>
+<body>
+<a href="#conteudo" class="skip">Pular para o conteúdo</a>
+<nav aria-label="Navegação principal"><div class="wrap nav-inner"><a href="#inicio" class="brand"><span class="brand-mark">⇄</span>node<span>/ lab</span></a><div class="nav-links"><a href="#laboratorio">Laboratório</a><a href="#implementacao" class="nav-theory">Implementação</a><a href="#custos" class="nav-extra">Complexidade</a><a href="#codigo" class="nav-code">Código Java ↗</a></div></div></nav>
+<main id="conteudo">
+<header class="hero" id="inicio"><div class="wrap"><div class="hero-grid"><div><div class="eyebrow"><span class="dot"></span>Estruturas de dados / Java</div><h1>Duas direções.<br>Uma <em>lógica.</em></h1><p class="hero-description">Entenda uma doubly linked list de verdade. Veja os nós se conectarem, acompanhe as referências e construa sua própria implementação em Java.</p><div class="actions"><a class="button primary" href="#laboratorio">Experimentar a lista <span aria-hidden="true">↗</span></a><a class="button" href="#implementacao">Entender o código ↓</a></div><p class="small-note">Do primeiro nó ao último. Sem pular as partes difíceis.</p></div>
+<div class="hero-art" aria-label="Lista duplamente encadeada com os valores 10, 20 e 30"><div class="art-top"><span>doubly-linked-list.java</span><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+<svg viewBox="0 0 450 215" role="img" aria-labelledby="hero-svg-title"><title id="hero-svg-title">Head aponta para 10, tail para 30. Os nós 10, 20 e 30 têm referências nos dois sentidos.</title><defs><marker id="ha" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#c8ef89"/></marker><marker id="hb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#e5b4c0"/></marker></defs><g font-family="monospace" font-size="11" fill="#c8ef89"><text x="40" y="29">head</text><text x="370" y="29">tail</text><path d="M60 39 V61 M389 39 V61" stroke="#c8ef89" fill="none" marker-end="url(#ha)"/></g><g stroke="#a0b69d" fill="#1f3d32"><rect x="12" y="77" width="99" height="81" rx="9"/><rect x="176" y="77" width="99" height="81" rx="9"/><rect x="340" y="77" width="99" height="81" rx="9"/></g><g fill="#c8ef89" font-size="32" font-family="monospace" text-anchor="middle"><text x="61" y="118">10</text><text x="225" y="118">20</text><text x="389" y="118">30</text></g><g fill="#b0c5b3" font-family="monospace" font-size="9" text-anchor="middle"><text x="61" y="143">prev · next</text><text x="225" y="143">prev · next</text><text x="389" y="143">prev · next</text></g><g fill="none" stroke-width="1.5"><path d="M116 97 H168 M280 97 H332" stroke="#c8ef89" marker-end="url(#ha)"/><path d="M170 135 H118 M334 135 H282" stroke="#e5b4c0" marker-end="url(#hb)"/></g><g font-family="monospace" font-size="10"><text x="131" y="85" fill="#c8ef89">next</text><text x="295" y="85" fill="#c8ef89">next</text><text x="129" y="155" fill="#e5b4c0">prev</text><text x="293" y="155" fill="#e5b4c0">prev</text><text x="10" y="199" fill="#9bb29f">null ←</text><text x="389" y="199" fill="#9bb29f">→ null</text></g></svg>
+<div class="art-bottom"><span>Um valor.<br><b>Duas referências.</b></span><span>Para frente →<br>← Para trás</span></div></div></div>
+<div class="chapter-strip"><a href="#anatomia"><span>01</span><strong>Conheça o nó</strong></a><a href="#laboratorio"><span>02</span><strong>Veja acontecer</strong></a><a href="#implementacao"><span>03</span><strong>Implemente em Java</strong></a><a href="#desafio"><span>04</span><strong>Teste sua lógica</strong></a></div></div></header>
+<section id="anatomia"><div class="wrap"><div class="section-head"><div><span class="section-number">01 / A IDEIA</span><h2>Uma lista feita de conexões.</h2></div><p>Você não move os valores de lugar.<br>Você muda quem aponta para quem.</p></div><div class="intro-layout"><div class="intro-copy"><p>Um array permite acessar uma posição diretamente pelo índice. Em uma lista encadeada, cada elemento vive em um <strong>nó</strong>. Para chegar ao seguinte, você segue uma referência.</p><p>Na versão <strong>duplamente encadeada</strong>, o nó também conhece seu anterior. É por isso que conseguimos caminhar de <code class="inline-code">head</code> até <code class="inline-code">tail</code> e voltar.</p><p>A lista guarda só três campos principais: <strong>o primeiro nó, o último nó e a quantidade de elementos</strong>. Os demais nós são alcançados pelas conexões.</p></div><div class="anatomy"><div class="anatomy-label"><span>ZOOM / Node&lt;Integer&gt;</span><span>um objeto</span></div><div class="anatomy-cell"><div><small>previous</small>nó anterior</div><div class="data"><small>data</small>20</div><div><small>next</small>próximo nó</div></div><div class="anatomy-caption"><strong>Referências, não cópias.</strong> <code>previous</code> e <code>next</code> apontam para outros objetos Node. Nos extremos, uma dessas referências é <code>null</code>.</div></div></div></div></section>
+<section id="laboratorio" class="lab-section"><div class="wrap"><div class="section-head"><div><span class="section-number">02 / LABORATÓRIO INTERATIVO</span><h2>Faça. Observe. Entenda.</h2></div><p>Escolha uma operação e avance linha por linha. As setas mostram as referências reais de cada etapa, inclusive enquanto ainda estão sendo atualizadas.</p></div>
+<div class="lab-shell"><div class="lab-bar"><div class="lab-bar-title"><span class="dot"></span> playground <span class="tag">Java → visualização</span></div><button class="button" id="reset" type="button">Reiniciar lista ↺</button></div>
+<form class="lab-controls" id="operation-form"><div class="field"><label for="operation">Operação</label><select id="operation"><option value="addLast">addLast · inserir no final</option><option value="addFirst">addFirst · inserir no início</option><option value="removeValue">remove · remover um valor</option><option value="removeFirst">removeFirst · remover primeiro</option><option value="removeLast">removeLast · remover último</option><option value="get">get · buscar por índice</option></select></div><div class="field"><label for="value" id="value-label">Valor inteiro</label><input id="value" type="number" value="40" min="-999999" max="999999" step="1" inputmode="numeric"></div><button class="button primary" type="submit" id="prepare">Preparar operação →</button></form>
+<p id="lab-error" class="error" role="alert"></p>
+<div class="lab-legend"><div class="legend-items"><span class="legend-next">→ next</span><span class="legend-prev">← previous</span></div><div class="lab-stats"><span>size <b id="stat-size">3</b></span><span id="state-label">Lista pronta</span></div></div>
+<div class="diagram-scroll" tabindex="0" aria-label="Diagrama da lista. Em telas pequenas, deslize horizontalmente para ver os nós."><div class="diagram" id="diagram" role="img" aria-label="Lista inicial 10, 20, 30"></div></div>
+<div class="trace"><span>head = <code id="head-ref">N1</code></span><span>tail = <code id="tail-ref">N3</code></span><span id="trace-list">[10, 20, 30]</span></div>
+<div class="lab-bottom"><div class="step-explanation"><div class="step-count" id="step-count">SUA VEZ</div><h3 id="step-title">Comece com addLast(40).</h3><p id="step-text" aria-live="polite">O novo nó precisa conhecer o último. O último precisa conhecer o novo. Depois, tail muda. Vamos ver isso?</p><div class="step-actions"><button class="button primary" type="button" id="next-step" disabled>Próxima etapa →</button><button class="button" type="button" id="finish" disabled>Executar tudo</button><button class="button" type="button" id="cancel" disabled>Cancelar</button></div></div><div class="step-code"><div class="code-label" id="snippet-label">addLast(T value) · O(1)</div><pre id="step-code" aria-label="Código da operação"></pre></div></div></div>
+<p class="lab-help">N1, N2… são identificadores didáticos, não endereços de memória. O simulador aceita até 8 nós e valores inteiros; a implementação Java é genérica e não tem esse limite.</p></div></section>
+<section id="implementacao"><div class="wrap"><div class="section-head"><div><span class="section-number">03 / A IMPLEMENTAÇÃO</span><h2>Agora, construa a lógica.</h2></div><p>A parte difícil não é decorar métodos. É saber quais referências precisam mudar e o que acontece nos extremos.</p></div><div class="learning-grid"><aside class="toc" aria-label="Etapas da implementação"><h3>Por dentro do código</h3><a href="#estrutura"><span>01</span> O nó e a lista</a><a href="#inserir"><span>02</span> Inserir nos extremos</a><a href="#remover"><span>03</span> Desconectar um nó</a><a href="#buscar"><span>04</span> Buscar pelo índice</a><a href="#invariantes"><span>05</span> Proteger a estrutura</a><a href="#codigo"><span>↗</span> Implementação completa</a></aside><div>
+<article class="lesson" id="estrutura"><span class="section-number">PASSO 01</span><h3>O nó é a peça. A lista organiza as peças.</h3><p><code class="inline-code">Node&lt;E&gt;</code> representa um único nó. <code class="inline-code">DoublyLinkedList&lt;T&gt;</code> guarda as entradas da estrutura. Os nomes <code>E</code> e <code>T</code> são parâmetros de tipo: podem representar Integer, String ou outro objeto.</p><pre class="mini-code"><span class="bright">private static class Node&lt;E&gt; {</span>
+    E data;
+    Node&lt;E&gt; previous;
+    Node&lt;E&gt; next;
+
+    Node(E data) { this.data = data; }
+}
+
+private Node&lt;T&gt; head; <span class="comment">// começa como null</span>
+private Node&lt;T&gt; tail; <span class="comment">// começa como null</span>
+private int size;     <span class="comment">// começa como 0</span></pre><p><strong>Por que private?</strong> Quem usa a lista não precisa mudar os nós diretamente. <strong>Por que static?</strong> Cada nó não precisa carregar uma referência implícita para a instância externa da lista.</p><div class="lesson-note">Em Java, use <code>DoublyLinkedList&lt;Integer&gt;</code>, não <code>DoublyLinkedList&lt;int&gt;</code>. Generics recebem tipos de referência; o autoboxing converte valores como <code>10</code> em Integer.</div></article>
+<article class="lesson" id="inserir"><span class="section-number">PASSO 02</span><h3>Inserir é conectar antes de atualizar a ponta.</h3><p>Imagine <code class="inline-code">[10, 20]</code> e a chamada <code class="inline-code">addLast(30)</code>. O nó 20 ainda é o último enquanto você prepara as conexões.</p><ol class="logic-steps"><li>Crie o nó 30, inicialmente sem vizinhos.</li><li>Faça <code>newNode.previous = tail</code>. O 30 passa a conhecer o 20.</li><li>Faça <code>tail.next = newNode</code>. O 20 passa a conhecer o 30.</li><li>Atualize <code>tail = newNode</code> e incremente <code>size</code>.</li></ol><pre class="mini-code">Node&lt;T&gt; newNode = new Node&lt;&gt;(value);
+newNode.previous = tail;
+
+if (tail == null) {
+    head = newNode; <span class="comment">// lista vazia</span>
+} else {
+    tail.next = newNode;
+}
+
+tail = newNode;
+size++;</pre><p><strong>E no início?</strong> O raciocínio se espelha: <code>newNode.next = head</code>, depois <code>head.previous = newNode</code>, e por fim <code>head = newNode</code>. Na lista vazia, o novo nó vira as duas pontas.</p><div class="lesson-note">Não atualize <code>tail</code> cedo demais. Se você perder a referência ao último nó antigo, poderá conectar o novo nó a ele mesmo.</div></article>
+<article class="lesson" id="remover"><span class="section-number">PASSO 03</span><h3>Remover é fazer os vizinhos se reencontrarem.</h3><p>Em <code class="inline-code">10 ⇄ 20 ⇄ 30</code>, remover 20 não exige copiar 30 para seu lugar. Você muda as referências de 10 e 30. O método privado <code class="inline-code">unlink</code> centraliza essa lógica.</p><pre class="mini-code">Node&lt;T&gt; before = node.previous;
+Node&lt;T&gt; after = node.next;
+
+if (before == null) head = after;
+else before.next = after;
+
+if (after == null) tail = before;
+else after.previous = before;</pre><div class="scenario-grid"><div class="scenario"><b>No meio</b><p>O anterior aponta para o seguinte. O seguinte volta para o anterior.</p></div><div class="scenario"><b>No início</b><p>Não há anterior. <code>head</code> muda para o seguinte, cujo <code>previous</code> vira null.</p></div><div class="scenario"><b>No final</b><p>Não há seguinte. <code>tail</code> muda para o anterior, cujo <code>next</code> vira null.</p></div><div class="scenario"><b>O único nó</b><p>Os dois vizinhos são null. Logo, <code>head</code> e <code>tail</code> ficam null.</p></div></div><p>Guarde o valor antes de limpar o nó, desconecte suas referências, reduza <code>size</code> e retorne o valor removido. Java cuida da coleta de objetos que deixam de ser alcançáveis; você não chama <code>free</code>.</p><div class="lesson-note"><strong>Encontrar e remover são custos diferentes.</strong> <code>unlink(node)</code> é O(1), mas <code>remove(value)</code> pode percorrer a lista inteira antes de encontrar o nó: O(n).</div></article>
+<article class="lesson" id="buscar"><span class="section-number">PASSO 04</span><h3>Um índice não é um atalho.</h3><p>Para <code class="inline-code">get(2)</code>, é preciso caminhar até o terceiro nó. Ter referências nos dois sentidos permite começar pela ponta mais próxima.</p><pre class="mini-code">if (index &lt; size / 2) {
+    current = head;
+    for (int i = 0; i &lt; index; i++) {
+        current = current.next;
+    }
+} else {
+    current = tail;
+    for (int i = size - 1; i &gt; index; i--) {
+        current = current.previous;
+    }
+}</pre><p>Em <code>[5, 10, 20, 30]</code>, buscar o índice 2 começa no último nó, índice 3, e volta uma vez. É menos trabalho, mas o pior caso continua <strong>O(n)</strong>.</p><p>Antes de caminhar, rejeite índices negativos ou maiores ou iguais a <code>size</code> com <code>IndexOutOfBoundsException</code>.</p></article>
+<article class="lesson" id="invariantes"><span class="section-number">PASSO 05</span><h3>Quatro regras que mantêm tudo conectado.</h3><ol class="logic-steps"><li>Se a lista está vazia, <code>head == null</code>, <code>tail == null</code> e <code>size == 0</code>.</li><li>Se há elementos, <code>head.previous == null</code> e <code>tail.next == null</code>.</li><li>Se <code>a.next == b</code>, então <code>b.previous == a</code>.</li><li>O número de nós alcançáveis a partir de <code>head</code> deve ser igual a <code>size</code>.</li></ol><p>Essas regras precisam valer <strong>ao terminar cada operação</strong>. Durante uma atualização passo a passo, uma direção pode já ter mudado e a outra ainda não. O laboratório mostra exatamente esses estados intermediários.</p><div class="lesson-note">Teste a lista vazia, um único nó, remoções no início e no final, valores repetidos e um valor ausente. Percorrer para trás ajuda a revelar erros que a impressão normal não mostra.</div></article>
+</div></div></div></section>
+<section id="custos"><div class="wrap"><div class="section-head"><div><span class="section-number">04 / COMPLEXIDADE</span><h2>Onde ela ganha. Onde ela custa.</h2></div><p>As pontas são rápidas porque já temos suas referências. O meio exige uma caminhada.</p></div><div class="complexity-wrap"><table><thead><tr><th>Operação</th><th>Pior caso</th><th>O que acontece</th></tr></thead><tbody><tr><td>addFirst / addLast</td><td class="cost">O(1)</td><td>Atualiza poucas referências.</td></tr><tr><td>getFirst / getLast</td><td class="cost">O(1)</td><td>Acessa head ou tail diretamente.</td></tr><tr><td>removeFirst / removeLast</td><td class="cost">O(1)</td><td>O nó já está localizado.</td></tr><tr><td>get(index)</td><td class="cost">O(n)</td><td>Percorre a partir da ponta mais próxima.</td></tr><tr><td>remove(value)</td><td class="cost">O(n)</td><td>Busca o valor e então desconecta o nó.</td></tr><tr><td>size / isEmpty</td><td class="cost">O(1)</td><td>Consulta o contador.</td></tr><tr><td>toString / toReverseString</td><td class="cost">O(n)</td><td>Visita todos os nós.</td></tr></tbody></table></div><p class="table-note">n = quantidade de elementos. A análise assume custo constante para comparar e representar cada valor. A estrutura ocupa O(n) memória e guarda duas referências por nó, além do valor e do custo do próprio objeto.</p><div class="comparison"><div><h3>Use o raciocínio de uma lista</h3><p>Quando o acesso às pontas é central ou quando você já está em um nó e precisa alterar sua vizinhança. Esta implementação expõe inserção apenas nos extremos.</p></div><div><h3>Compare com um ArrayList</h3><p>Se você acessa frequentemente por índice, ArrayList oferece acesso O(1) e costuma ter melhor localidade de memória. “Encadeada” não significa “mais rápida em tudo”.</p></div></div></div></section>
+<section id="codigo" class="source-section"><div class="wrap"><div class="section-head"><div><span class="section-number">05 / JAVA COMPLETO</span><h2>Seu ponto de partida.<br>Pronto para estudar e executar.</h2></div><p>Uma classe genérica, os métodos essenciais e um main com exemplo. Tudo comentado, incluindo os casos especiais.</p></div><div class="source-tools"><button class="button lime" id="copy-java" type="button">Copiar código ↗</button><button class="button" id="download-java" type="button">Baixar .java ↓</button><button class="button" id="expand-java" type="button" aria-expanded="false" aria-controls="full-code">Expandir código</button></div><div class="source-window"><div class="source-bar"><span class="file-dot"></span>DoublyLinkedList.java <span style="margin-left:auto">Java 8+</span></div><pre class="source-code" id="full-code" tabindex="0" aria-label="Implementação Java completa comentada"></pre></div><div class="source-status" id="source-status" role="status"></div><div class="run-grid"><div><h3>NO TERMINAL · COM O JDK INSTALADO</h3><pre>javac -encoding UTF-8 DoublyLinkedList.java
+java DoublyLinkedList</pre></div><div><h3>SAÍDA ESPERADA DO MAIN</h3><pre>[5, 10, 20, 30]
+[30, 20, 10, 5]
+20
+true
+5
+30
+[10]
+1</pre></div></div><p class="small-note">O simulador roda no navegador. O código Java é executado no seu JDK. Nenhuma biblioteca externa é necessária.</p></div></section>
+<section id="desafio" class="quiz-section"><div class="wrap"><div class="section-head"><div><span class="section-number">06 / TESTE SUA LÓGICA</span><h2>Você já consegue prever?</h2></div><p>Responda antes de testar no laboratório.<br>Entender uma referência vale mais do que decorar uma linha.</p></div><div class="quiz-grid"><div class="quiz-card" data-quiz="single"><span class="section-number">DESAFIO 01</span><h3>A lista é [10]. Você chama removeFirst(). O que acontece com tail?</h3><div class="quiz-answers"><button type="button" data-answer="node" aria-pressed="false">Continua no nó 10</button><button type="button" data-answer="null" aria-pressed="false">Vira null</button></div><div class="feedback" aria-live="polite">Pense nos vizinhos do único nó antes de removê-lo.</div></div><div class="quiz-card" data-quiz="cost"><span class="section-number">DESAFIO 02</span><h3>Desconectar um nó é O(1). Então remove(value) também é sempre O(1)?</h3><div class="quiz-answers"><button type="button" data-answer="yes" aria-pressed="false">Sim</button><button type="button" data-answer="no" aria-pressed="false">Não, pode ser O(n)</button></div><div class="feedback" aria-live="polite">Antes de desconectar, o método sabe onde está o valor?</div></div></div>
+<div class="faq"><details><summary>Por que usar Objects.equals em vez de ==?</summary><p><code>==</code> compara a identidade de objetos. Para remover pelo conteúdo, usamos igualdade de valores. <code>Objects.equals(a, b)</code> usa <code>equals</code> com tratamento seguro de null. Para classes próprias, implemente <code>equals</code> conforme o significado de igualdade no seu domínio.</p></details><details><summary>Posso guardar null ou valores repetidos?</summary><p>Sim. Esta implementação permite ambos. <code>remove(value)</code> remove apenas a primeira ocorrência. Consultar ou remover uma ponta vazia lança <code>NoSuchElementException</code>; um null retornado de uma lista não vazia pode ser um valor realmente armazenado.</p></details><details><summary>Por que limpar as referências do nó removido?</summary><p>As conexões da lista já foram corrigidas. Limpar <code>previous</code>, <code>next</code> e <code>data</code> evita retenções desnecessárias caso ainda exista alguma referência ao nó. Nesta implementação os nós são privados; sem referências alcançáveis, o coletor de lixo pode recuperar sua memória.</p></details><details><summary>É a mesma coisa que java.util.LinkedList?</summary><p>A ideia de encadeamento duplo é semelhante, mas esta é uma implementação didática. Ela não implementa as interfaces List ou Deque, nem iteradores, nem todas as operações e contratos da biblioteca padrão. Também não é sincronizada para uso concorrente.</p></details></div>
+<div class="end-banner"><p><strong>Não decore as setas.</strong> Pergunte: quem era meu vizinho, quem será meu vizinho e qual ponta precisa mudar?</p><a class="button primary" href="#laboratorio">Voltar ao laboratório ↑</a></div></div></section>
+</main><footer><div class="wrap footer-inner"><span>node / lab · Estruturas de dados, sem atalhos.</span><span>HTML independente · funciona offline · feito para explorar</span></div></footer>
+<script type="text/plain" id="java-source">import java.util.NoSuchElementException;
+import java.util.Objects;
+
+/** Lista duplamente encadeada genérica. Aceita valores null. */
+public class DoublyLinkedList<T> {
+
+    // static evita uma referência implícita à instância da lista.
+    // E é o tipo do valor armazenado neste nó.
+    private static class Node<E> {
+        E data;
+        Node<E> previous;
+        Node<E> next;
+
+        Node(E data) {
+            this.data = data;
+        }
+    }
+
+    private Node<T> head; // Primeiro nó; null se a lista estiver vazia.
+    private Node<T> tail; // Último nó; null se a lista estiver vazia.
+    private int size;     // Java inicializa este campo com zero.
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void addFirst(T value) {
+        Node<T> newNode = new Node<>(value);
+        newNode.next = head;       // Novo nó aponta para o primeiro atual.
+
+        if (head == null) {
+            tail = newNode;        // Vazia: ele também será o último.
+        } else {
+            head.previous = newNode;
+        }
+
+        head = newNode;            // Atualiza a entrada da lista.
+        size++;
+    }
+
+    public void addLast(T value) {
+        Node<T> newNode = new Node<>(value);
+        newNode.previous = tail;   // Novo nó aponta para o último atual.
+
+        if (tail == null) {
+            head = newNode;        // Vazia: ele também será o primeiro.
+        } else {
+            tail.next = newNode;
+        }
+
+        tail = newNode;            // Atualiza a saída da lista.
+        size++;
+    }
+
+    public T getFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("A lista está vazia.");
+        }
+        return head.data;
+    }
+
+    public T getLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("A lista está vazia.");
+        }
+        return tail.data;
+    }
+
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(
+                "Índice: " + index + ", tamanho: " + size
+            );
+        }
+
+        Node<T> current;
+        if (index < size / 2) {
+            current = head;        // Mais perto do início.
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;        // Mais perto do final.
+            for (int i = size - 1; i > index; i--) {
+                current = current.previous;
+            }
+        }
+        return current.data;
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("A lista está vazia.");
+        }
+        return unlink(head);
+    }
+
+    public T removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("A lista está vazia.");
+        }
+        return unlink(tail);
+    }
+
+    // Remove apenas a primeira ocorrência. Busca custa O(n).
+    public boolean remove(T value) {
+        Node<T> current = head;
+        while (current != null) {
+            // equals compara conteúdo; Objects.equals também aceita null.
+            if (Objects.equals(current.data, value)) {
+                unlink(current);
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    // Recebe um nó não nulo pertencente à lista. Desconectar custa O(1).
+    private T unlink(Node<T> node) {
+        Node<T> before = node.previous;
+        Node<T> after = node.next;
+
+        if (before == null) {
+            head = after;          // Era o primeiro nó.
+        } else {
+            before.next = after;   // Vizinho esquerdo pula o nó removido.
+        }
+
+        if (after == null) {
+            tail = before;         // Era o último nó.
+        } else {
+            after.previous = before; // Vizinho direito volta ao anterior.
+        }
+
+        T removedValue = node.data;
+        // Limpa referências; não existe free/delete manual em Java.
+        node.previous = null;
+        node.next = null;
+        node.data = null;
+        size--;
+        return removedValue;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+        Node<T> current = head;
+        while (current != null) {
+            result.append(current.data);
+            if (current.next != null) result.append(", ");
+            current = current.next;
+        }
+        return result.append("]").toString();
+    }
+
+    // Percorre para trás, sem modificar a ordem dos nós.
+    public String toReverseString() {
+        StringBuilder result = new StringBuilder("[");
+        Node<T> current = tail;
+        while (current != null) {
+            result.append(current.data);
+            if (current.previous != null) result.append(", ");
+            current = current.previous;
+        }
+        return result.append("]").toString();
+    }
+
+    public static void main(String[] args) {
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
+        list.addFirst(5);
+
+        System.out.println(list);                   // [5, 10, 20, 30]
+        System.out.println(list.toReverseString()); // [30, 20, 10, 5]
+        System.out.println(list.get(2));            // 20
+        System.out.println(list.remove(20));        // true
+        System.out.println(list.removeFirst());     // 5
+        System.out.println(list.removeLast());      // 30
+        System.out.println(list);                   // [10]
+        System.out.println(list.size());            // 1
+    }
+}
+</script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = obj => JSON.parse(JSON.stringify(obj));
+const snippets = {
+ addLast: ['Node<T> newNode = new Node<>(value);','newNode.previous = tail;','if (tail == null) {','    head = newNode;','} else {','    tail.next = newNode;','}','tail = newNode;','size++;'],
+ addFirst: ['Node<T> newNode = new Node<>(value);','newNode.next = head;','if (head == null) {','    tail = newNode;','} else {','    head.previous = newNode;','}','head = newNode;','size++;'],
+ unlink: ['Node<T> before = node.previous;','Node<T> after = node.next;','if (before == null) head = after;','else before.next = after;','if (after == null) tail = before;','else after.previous = before;','T removedValue = node.data;','node.previous = null;','node.next = null;','node.data = null;','size--;','return removedValue;'],
+ remove: ['Node<T> current = head;','while (current != null) {','    if (Objects.equals(current.data, value)) {','        unlink(current);','        return true;','    }','    current = current.next;','}','return false;'],
+ get: ['if (index < 0 || index >= size) {','    throw new IndexOutOfBoundsException();','}','// Comece pela ponta mais próxima.','Node<T> current = head; // ou tail','// Repita até chegar ao índice desejado:','current = current.next; // ou previous','return current.data;'],
+ empty: ['if (isEmpty()) {','    throw new NoSuchElementException(','        "A lista está vazia."', '    );','}']
+};
+function initialState() {
+ return {head:'N1',tail:'N3',size:3,nextId:4,order:['N1','N2','N3'],nodes:{
+  N1:{id:'N1',data:10,previous:null,next:'N2'},N2:{id:'N2',data:20,previous:'N1',next:'N3'},N3:{id:'N3',data:30,previous:'N2',next:null}}};
+}
+function cleanState(s) {
+ const next = clone(s);
+ for (const id of Object.keys(next.nodes)) {
+  if (next.nodes[id].removed) delete next.nodes[id];
+  else delete next.nodes[id].fresh;
+ }
+ next.order=next.order.filter(id=>next.nodes[id]);
+ return next;
+}
+function valuesOf(s,reverse=false) {
+ const seen=new Set(),values=[];let id=reverse?s.tail:s.head;
+ while(id!==null && s.nodes[id] && !seen.has(id)) {seen.add(id);values.push(s.nodes[id].data);id=reverse?s.nodes[id].previous:s.nodes[id].next;}
+ return values;
+}
+function assertState(s) {
+ if(s.size===0) {if(s.head!==null||s.tail!==null||Object.keys(s.nodes).length)throw Error('Lista vazia inconsistente');return;}
+ if(!s.nodes[s.head]||!s.nodes[s.tail])throw Error('Ponta inválida');
+ if(s.nodes[s.head].previous!==null||s.nodes[s.tail].next!==null)throw Error('Extremo inválido');
+ let id=s.head,prev=null,n=0;const seen=new Set();
+ while(id!==null){if(seen.has(id)||!s.nodes[id])throw Error('Ciclo ou referência inválida');seen.add(id);const node=s.nodes[id];if(node.previous!==prev)throw Error('Ligação inversa inválida');prev=id;id=node.next;n++;}
+ if(prev!==s.tail||n!==s.size||Object.keys(s.nodes).length!==s.size)throw Error('Tamanho inconsistente');
+ const backwards=valuesOf(s,true);if(JSON.stringify(backwards)!==JSON.stringify(valuesOf(s).reverse()))throw Error('Percurso inverso inconsistente');
+}
+function buildPlan(base,op,value) {
+ let s=clone(base);const steps=[];
+ const push=(title,text,group,line,focus=[],result=null)=>steps.push({state:clone(s),title,text,group,line,focus,result});
+ const opName=op==='removeValue'?'remove':op;
+ push('Antes de mudar qualquer referência.',`A lista começa em [${valuesOf(s).join(', ')}]. ${op==='get'?'A busca não modifica os nós.':'Avance para acompanhar as atribuições.'}`,op.startsWith('add')?op:op==='get'?'get':op==='removeValue'?'remove':s.size===0?'empty':'unlink',-1);
+ if(op==='addLast'||op==='addFirst') {
+  const id='N'+s.nextId++;s.nodes[id]={id,data:value,previous:null,next:null,fresh:true};
+  if(op==='addFirst')s.order.unshift(id);else s.order.push(id);
+  push(`Crie o nó ${id}.`,`new Node<>(${value}) cria um objeto. previous e next começam como null. Ele ainda não foi conectado.`,op,0,[id]);
+  if(op==='addLast') {
+   const old=s.tail;s.nodes[id].previous=old;
+   push('O novo nó conhece o último.',old?`${id}.previous recebe ${old}. Ainda falta a referência na direção contrária.`:'tail era null. A referência previous do novo nó continua null.',op,1,[id]);
+   if(old===null){s.head=id;push('A lista estava vazia.',`head passa a apontar para ${id}. Ele será o primeiro e também o último.`,op,3,[id]);}
+   else{s.nodes[old].next=id;push('O último antigo conhece o novo.',`${old}.next recebe ${id}. Agora os dois nós se reconhecem nos dois sentidos.`,op,5,[old,id]);}
+   s.tail=id;push('Atualize a última ponta.',`tail agora aponta para ${id}. ${id}.next continua null: não existe outro nó depois dele.`,op,7,[id]);
+  } else {
+   const old=s.head;s.nodes[id].next=old;
+   push('O novo nó conhece o primeiro.',old?`${id}.next recebe ${old}. Ainda falta a ligação de volta.`:'head era null. next também fica null.',op,1,[id]);
+   if(old===null){s.tail=id;push('A lista estava vazia.',`tail recebe ${id}. O mesmo nó será a entrada e a saída.`,op,3,[id]);}
+   else{s.nodes[old].previous=id;push('O primeiro antigo conhece o novo.',`${old}.previous recebe ${id}. A ligação de volta está pronta.`,op,5,[old,id]);}
+   s.head=id;push('Atualize a primeira ponta.',`head agora aponta para ${id}. ${id}.previous continua null.`,op,7,[id]);
+  }
+  s.size++;push('Conectado. Nos dois sentidos.',`size passa a ${s.size}. A lista é [${valuesOf(s).join(', ')}]. Nenhum valor antigo foi copiado ou deslocado.`,op,8,[id]);
+ } else if(op==='get') {
+  if(value<0||value>=s.size){push('Esse índice não existe.',`get(${value}) lançaria IndexOutOfBoundsException. Os índices válidos vão de 0 a ${s.size-1}${s.size===0?' (a lista está vazia)':''}. A lista não muda.`,'get',1,[],{exception:'IndexOutOfBoundsException'});return steps;}
+  const forward=value<Math.floor(s.size/2);let index=forward?0:s.size-1;let id=forward?s.head:s.tail;
+  push(`Comece por ${forward?'head':'tail'}.`,`O índice ${value} está ${forward?'na primeira':'na segunda'} metade. current aponta para ${id}, no índice ${index}.`,'get',4,[id]);
+  while(index!==value){id=forward?s.nodes[id].next:s.nodes[id].previous;index+=forward?1:-1;push(`Caminhe para o índice ${index}.`,`current = current.${forward?'next':'previous'}; agora current aponta para ${id}. Não alteramos nenhuma conexão.`,'get',6,[id]);}
+  push(`Encontrado: ${s.nodes[id].data}.`,`get(${value}) retorna ${s.nodes[id].data}. O índice começa em zero; este é o elemento de posição ${value+1}.`,'get',7,[id],{value:s.nodes[id].data});
+ } else {
+  let id;
+  if(op==='removeValue'){
+   id=s.head;
+   push('Procure a primeira ocorrência.',`current começa em head. Vamos comparar os valores com ${value} usando Objects.equals.`,'remove',0,id?[id]:[]);
+   while(id!==null && s.nodes[id].data!==value){push(`${s.nodes[id].data} não é ${value}.`,`A comparação não encontrou o valor em ${id}. A próxima atribuição avança current.`,'remove',2,[id]);id=s.nodes[id].next;push(id?`Avance para ${id}.`:'Chegamos ao fim.',id?'current agora aponta para o próximo nó.':'current virou null: não existe outro nó para comparar.','remove',6,id?[id]:[]);}
+   if(id===null){push('Valor não encontrado.',`remove(${value}) retorna false. Nenhuma referência da lista foi alterada.`,'remove',8,[],{value:false});return steps;}
+   push(`Encontramos ${value} em ${id}.`,'Esta é a primeira ocorrência. Agora unlink vai cuidar da desconexão.','remove',3,[id]);
+  } else {
+   if(s.size===0){push('Não há nada para remover.',`${opName}() lançaria NoSuchElementException. A lista continua vazia.`,'empty',1,[],{exception:'NoSuchElementException'});return steps;}
+   id=op==='removeFirst'?s.head:s.tail;
+  }
+  const node=s.nodes[id],before=node.previous,after=node.next,data=node.data;
+  push('Guarde os vizinhos.',`node é ${id}. before = ${before??'null'} e after = ${after??'null'}. Essas referências serão usadas para reconectar a lista.`,'unlink',1,[id]);
+  if(before===null){s.head=after;push('O nó era o primeiro.',`before é null. Então head = ${after??'null'}. ${after?'O próximo nó passa a ser o primeiro.':'Não existe próximo nó.'}`,'unlink',2,[id,...(after?[after]:[])]);}
+  else{s.nodes[before].next=after;push('A referência next pula o nó.',`${before}.next recebe ${after??'null'}. O vizinho esquerdo deixa de apontar para ${id}.`,'unlink',3,[before,id]);}
+  if(after===null){s.tail=before;push('O nó era o último.',`after é null. Então tail = ${before??'null'}. ${before?'O anterior passa a ser o último.':'As duas pontas agora são null.'}`,'unlink',4,[id,...(before?[before]:[])]);}
+  else{s.nodes[after].previous=before;push('A referência previous também pula.',`${after}.previous recebe ${before??'null'}. Os vizinhos da lista foram reconectados.`,'unlink',5,[id,after]);}
+  push('Guarde o valor que será retornado.',`removedValue recebe ${data}. Precisamos guardar esse valor antes de limpar node.data.`,'unlink',6,[id]);
+  node.previous=null;push('Limpe a referência anterior.',`${id}.previous = null. O nó removido deixa de manter essa referência ao vizinho.`,'unlink',7,[id]);
+  node.next=null;push('Limpe a referência seguinte.',`${id}.next = null. O nó já não mantém nenhuma conexão com a lista.`,'unlink',8,[id]);
+  node.data=null;node.removed=true;push('Limpe o valor do nó desconectado.',`node.data = null. O valor ${data} continua guardado em removedValue.`,'unlink',9,[id]);
+  s.size--;push('Atualize o tamanho.',`size passa a ${s.size}. ${s.size===0?'head e tail são null.':'As ligações restantes são consistentes nos dois sentidos.'}`,'unlink',10);
+  push(op==='removeValue'?'Remoção confirmada.':`Retorno: ${data}.`,op==='removeValue'?`unlink devolve ${data}; remove(${value}) retorna true. Lista: [${valuesOf(s).join(', ')}].`:`${opName}() retorna ${data}. Lista: [${valuesOf(s).join(', ')}].`,'unlink',11,[],{value:op==='removeValue'?true:data});
+ }
+ return steps;
+}
+let committed=initialState(),plan=null,stepIndex=0,done=false,renderedState=clone(committed);
+function drawArrows(){
+ const diagram=$('diagram'),svg=diagram.querySelector('svg');if(!svg)return;
+ const root=diagram.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${root.width} ${root.height}`);
+ let paths='';
+ for(const node of Object.values(renderedState.nodes)){
+  for(const direction of ['next','previous']){
+   const target=node[direction];if(!target)continue;
+   const sourceEl=diagram.querySelector(`[data-node="${node.id}"]`),targetEl=diagram.querySelector(`[data-node="${target}"]`);
+   if(!sourceEl||!targetEl)continue;
+   const a=sourceEl.getBoundingClientRect(),b=targetEl.getBoundingClientRect();const next=direction==='next';
+   const x1=(next?a.right+4:a.left-4)-root.left,x2=(next?b.left-7:b.right+7)-root.left;
+   const y=a.top-root.top+(next?43:84),span=Math.abs(x2-x1),mid=(x1+x2)/2;
+   const color=next?'#306844':'#946a81',marker=next?'next-arrow':'prev-arrow';
+   let d=span<75?`M${x1},${y} L${x2},${y}`:`M${x1},${y} C${x1},${next?32:root.height-32} ${x2},${next?32:root.height-32} ${x2},${y}`;
+   paths+=`<path d="${d}" fill="none" stroke="${color}" stroke-width="1.6" marker-end="url(#${marker})"/>`;
+  }
+ }
+ svg.innerHTML=`<defs><marker id="next-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#306844"/></marker><marker id="prev-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#946a81"/></marker></defs>${paths}`;
+}
+function render(s,focus=[]){
+ renderedState=clone(s);const diagram=$('diagram');
+ const nodes=s.order.filter(id=>s.nodes[id]).map(id=>s.nodes[id]);
+ diagram.innerHTML='<svg aria-hidden="true"></svg>'+(nodes.length?nodes.map(node=>`<div class="node ${focus.includes(node.id)?'is-focus':''} ${node.removed?'removed':''}" data-node="${node.id}"><div class="node-badges">${s.head===node.id?'<span>head</span>':''}${s.tail===node.id?'<span>tail</span>':''}</div><div class="node-top"><span>${node.id}</span><span>Node</span></div><span class="node-value ${String(node.data).length>5?'long':''}">${node.data===null?'∅':node.data}</span><div class="node-refs"><span>previous<b>${node.previous??'null'}</b></span><span>next<b>${node.next??'null'}</b></span></div>${node.removed?'<span class="node-new">desconectado</span>':node.fresh?'<span class="node-new">novo nó</span>':''}</div>`).join(''):'<div class="empty"><b>head = tail = null</b>A lista está vazia. Insira um valor para criar o primeiro nó.</div>');
+ $('stat-size').textContent=s.size;$('head-ref').textContent=s.head??'null';$('tail-ref').textContent=s.tail??'null';
+ $('trace-list').textContent='percurso next: ['+valuesOf(s).join(', ')+']';
+ diagram.setAttribute('aria-label',`head ${s.head??'null'}, tail ${s.tail??'null'}, size ${s.size}. `+nodes.map(n=>`${n.id}, valor ${n.data??'limpo'}, previous ${n.previous??'null'}, next ${n.next??'null'}${n.removed?', desconectado':''}`).join('. '));
+ requestAnimationFrame(drawArrows);
+}
+function renderSnippet(group,line){
+ const names={addLast:'addLast(T value) · O(1)',addFirst:'addFirst(T value) · O(1)',get:'get(int index) · O(n)',remove:'remove(T value) · O(n)',unlink:'unlink(Node<T> node) · O(1)',empty:'Verificação de lista vazia'};
+ $('snippet-label').textContent=names[group];
+ const lines=[...snippets[group]];
+ if(group==='get'&&plan){const dir=plan.some(x=>x.title==='Comece por tail.')?'previous':'next';lines[4]=`Node<T> current = ${dir==='next'?'head':'tail'};`;lines[6]=`current = current.${dir};`;}
+ $('step-code').innerHTML=lines.map((text,i)=>`<span class="code-line ${i===line?'active':''}"><i>${i+1}</i>${esc(text)}</span>`).join('');
+}
+function lockControls(locked){$('operation').disabled=locked;$('prepare').disabled=locked;$('value').disabled=locked||['removeFirst','removeLast'].includes($('operation').value);$('reset').disabled=locked;}
+function updateStep(){
+ const step=plan[stepIndex];done=stepIndex===plan.length-1;
+ if(done){committed=cleanState(step.state);assertState(committed);}
+ render(step.state,step.focus);renderSnippet(step.group,step.line);
+ $('step-count').textContent=`ETAPA ${stepIndex} / ${plan.length-1}`;$('step-title').textContent=step.title;$('step-text').textContent=step.text;
+ $('state-label').textContent=done?'Operação concluída':'Atualizando referências';
+ $('next-step').disabled=done;$('finish').disabled=done;$('cancel').disabled=done;lockControls(!done);
+}
+function resetLab(){committed=initialState();plan=null;done=false;stepIndex=0;$('lab-error').textContent='';render(committed);renderSnippet('addLast',-1);$('step-count').textContent='SUA VEZ';$('step-title').textContent='Comece com addLast(40).';$('step-text').textContent='O novo nó precisa conhecer o último. O último precisa conhecer o novo. Depois, tail muda. Vamos ver isso?';$('state-label').textContent='Lista pronta';$('next-step').disabled=true;$('finish').disabled=true;$('cancel').disabled=true;$('operation').value='addLast';$('value').value=40;lockControls(false);syncField();}
+function syncField(){const op=$('operation').value;$('value-label').textContent=op==='get'?'Índice (começa em 0)':'Valor inteiro';$('value').disabled=['removeFirst','removeLast'].includes(op);$('lab-error').textContent='';if(op==='get')$('value').value=1;else if(op==='removeValue')$('value').value=20;}
+$('operation-form').addEventListener('submit',event=>{
+ event.preventDefault();if(plan&&!done)return;
+ const op=$('operation').value;const needsValue=!['removeFirst','removeLast'].includes(op);const raw=$('value').value.trim(),value=Number(raw);
+ if(needsValue&&(raw===''||!Number.isInteger(value)||Math.abs(value)>999999)){$('lab-error').textContent='Digite um número inteiro entre -999999 e 999999.';return;}
+ if(op.startsWith('add')&&committed.size>=8){$('lab-error').textContent='O laboratório mostra até 8 nós. Remova um nó antes de inserir outro.';return;}
+ $('lab-error').textContent='';plan=buildPlan(committed,op,value);stepIndex=0;done=false;updateStep();$('next-step').focus({preventScroll:true});
+});
+$('next-step').addEventListener('click',()=>{if(plan&&!done){stepIndex++;updateStep();}});
+$('finish').addEventListener('click',()=>{if(plan&&!done){stepIndex=plan.length-1;updateStep();}});
+$('cancel').addEventListener('click',()=>{plan=null;done=false;stepIndex=0;render(committed);lockControls(false);$('next-step').disabled=true;$('finish').disabled=true;$('cancel').disabled=true;$('state-label').textContent='Lista pronta';$('step-count').textContent='CANCELADO';$('step-title').textContent='Voltamos ao estado anterior.';$('step-text').textContent='Nenhuma mudança desta operação foi mantida. Você pode escolher outra operação.';renderSnippet($('operation').value.startsWith('add')?$('operation').value:'remove',-1);});
+$('reset').addEventListener('click',resetLab);$('operation').addEventListener('change',syncField);
+new ResizeObserver(()=>requestAnimationFrame(drawArrows)).observe($('diagram'));
+window.addEventListener('resize',drawArrows);
+const javaSource=$('java-source').textContent.trim()+'\n';
+function colorCode(line){const re=/\/\/[^\n]*|\/\*.*?\*\/|"(?:\\.|[^"\\])*"|\b(?:import|public|private|static|class|return|if|else|for|while|new|throw|int|boolean|void|true|false|null|this)\b|\b\d+\b/g;let result='',pos=0;for(const match of line.matchAll(re)){result+=esc(line.slice(pos,match.index));const t=match[0],kind=t.startsWith('//')||t.startsWith('/*')?'comment':t.startsWith('"')?'string':/^\d/.test(t)?'number':'keyword';result+=`<span class="tok-${kind}">${esc(t)}</span>`;pos=match.index+t.length;}return result+esc(line.slice(pos));}
+$('full-code').innerHTML=javaSource.trimEnd().split('\n').map(line=>`<span>${colorCode(line)||' '}</span>`).join('');
+$('copy-java').addEventListener('click',async()=>{try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(javaSource);else{const field=document.createElement('textarea');field.value=javaSource;field.style.position='fixed';field.style.opacity='0';document.body.append(field);field.select();const ok=document.execCommand('copy');field.remove();if(!ok)throw Error('copy');}$('source-status').textContent='Código copiado. Salve como DoublyLinkedList.java.';}catch{$('source-status').textContent='O navegador não permitiu copiar. Use “Baixar .java” para salvar o código.';}});
+$('download-java').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([javaSource],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='DoublyLinkedList.java';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$('source-status').textContent='Arquivo Java preparado para download.';});
+$('expand-java').addEventListener('click',()=>{const expanded=$('full-code').classList.toggle('expanded');$('expand-java').setAttribute('aria-expanded',expanded);$('expand-java').textContent=expanded?'Recolher código':'Expandir código';});
+for(const card of document.querySelectorAll('[data-quiz]')){
+ for(const button of card.querySelectorAll('[data-answer]'))button.addEventListener('click',()=>{for(const peer of card.querySelectorAll('[data-answer]'))peer.setAttribute('aria-pressed',peer===button);const kind=card.dataset.quiz,answer=button.dataset.answer;const right=(kind==='single'&&answer==='null')||(kind==='cost'&&answer==='no');const feedback=card.querySelector('.feedback');feedback.classList.toggle('correct',right);feedback.textContent=kind==='single'?(right?'Isso! before e after são null. unlink faz head = after e tail = before. As duas pontas ficam null.':'Ainda existe uma ponta apontando para um nó removido? Isso quebraria a estrutura. O único nó não tem vizinhos: head e tail precisam virar null.'):(right?'Exato. A busca pelo valor pode visitar n nós. Depois de encontrá-lo, desconectar custa O(1). O total continua O(n).':'A desconexão é constante, mas o método começa procurando o valor desde head. Essa busca pode visitar a lista inteira.');});
+}
+render(committed);renderSnippet('addLast',-1);
+</script>
+</body></html>
